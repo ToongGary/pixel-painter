@@ -31,6 +31,8 @@ class PixelPainter {
 
     this.wrapper.appendChild(this.drawCanvas)
     this.wrapper.appendChild(this.backgroundCanvas)
+
+    this.initializeHandleEvents()
   }
 
   generateDrawCanvasElement() {
@@ -74,5 +76,29 @@ class PixelPainter {
     }
 
     return backgroundCanvas
+  }
+
+  initializeHandleEvents() {
+    this.drawCanvas.addEventListener('mousedown', this.handleCanvasClick.bind(this))
+  }
+
+  handleCanvasClick(event: MouseEvent) {
+    const { left: canvasLeft, top: canvasTop } = this.drawCanvas.getBoundingClientRect()
+    const x = event.clientX - canvasLeft
+    const y = event.clientY - canvasTop
+
+    const cellX = Math.floor(x / this.cellWidth)
+    const cellY = Math.floor(y / this.cellHeight)
+
+    this.fillCell(cellX, cellY)
+  }
+
+  fillCell(cellX: number, cellY: number) {
+    this.drawCanvasContext.fillStyle = 'black'
+
+    const startX = cellX * this.cellWidth
+    const startY = cellY * this.cellHeight
+
+    this.drawCanvasContext.fillRect(startX, startY, this.cellWidth, this.cellWidth)
   }
 }
