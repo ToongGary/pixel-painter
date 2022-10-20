@@ -132,11 +132,20 @@ class PixelPainter {
     input.style.width = '100%'
     input.style.display = 'block'
     input.style.height = '100%'
+    input.value = '#87ceeb'
+    input.addEventListener('input', this.handleColorPickerChanging.bind(this))
     label.appendChild(input)
 
     colorWrapperDiv.appendChild(label)
 
     return colorWrapperDiv
+  }
+
+  handleColorPickerChanging(event: Event) {
+    const target = event.target as HTMLInputElement
+    const parent = target.parentElement as HTMLLabelElement
+    parent.style.backgroundColor = target.value as string
+    this.cellColor = target.value as string
   }
 
   initializeHandleEvents() {
@@ -148,8 +157,14 @@ class PixelPainter {
   }
 
   handleColorMousedown(event: MouseEvent) {
-    const target = event.target as HTMLDivElement
-    const color = target.dataset.color as string
+    const target = event.target as HTMLElement
+    let color: string
+    if (target.tagName == 'LABEL') {
+      const input = target.firstChild as HTMLInputElement
+      color = input.value as string
+    } else {
+      color = target.dataset.color as string
+    }
     this.cellColor = color
   }
 
