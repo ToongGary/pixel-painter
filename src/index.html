@@ -7,10 +7,12 @@
   </head>
   <body>
     <div id="canvas"></div>
+    <button id="reset" type="button">Reset</button>
     <script src="../dist/pixel-painter.js"></script>
     <script>
       new PixelPainter({
         wrapperId: 'canvas',
+        resetButtonId: 'reset',
         columnCount: 21,
         rowCount: 21,
         cellWidth: 14,

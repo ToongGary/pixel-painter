@@ -3,6 +3,7 @@ class PixelPainter {
   private drawCanvasContext: CanvasRenderingContext2D
   private backgroundCanvas: HTMLCanvasElement
   private colorsDiv: HTMLDivElement
+  private resetButton: HTMLButtonElement
   private columnCount: number
   private rowCount: number
   private cellWidth: number
@@ -19,12 +20,14 @@ class PixelPainter {
 
   constructor({
     wrapperId,
+    resetButtonId,
     columnCount,
     rowCount,
     cellWidth,
     cellHeight
   }: {
     wrapperId: string
+    resetButtonId: string
     columnCount: number
     rowCount: number
     cellWidth: number
@@ -33,6 +36,7 @@ class PixelPainter {
     this.cellColor = 'black'
     this.isClick = false
     this.wrapper = document.getElementById(wrapperId) as HTMLDivElement
+    this.resetButton = document.getElementById(resetButtonId) as HTMLButtonElement
     this.columnCount = columnCount
     this.rowCount = rowCount
     this.cellWidth = cellWidth
@@ -153,6 +157,12 @@ class PixelPainter {
     this.drawCanvas.addEventListener('contextmenu', (event) => event.preventDefault())
     this.drawCanvas.addEventListener('mousemove', this.handleCanvasMouseMove.bind(this))
     this.colorsDiv.addEventListener('mousedown', this.handleColorMousedown.bind(this))
+
+    if (this.resetButton) this.resetButton.addEventListener('click', this.handleResetButtonClick.bind(this))
+  }
+
+  handleResetButtonClick() {
+    this.drawCanvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
   }
 
   handleColorMousedown(event: MouseEvent) {
