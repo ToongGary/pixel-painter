@@ -8,6 +8,9 @@ class PixelPainter {
   private cellWidth: number
   private cellHeight: number
 
+  private canvasWidth: number
+  private canvasHeight: number
+
   private isClick: boolean
 
   private cellColor: string
@@ -35,8 +38,8 @@ class PixelPainter {
     this.cellWidth = cellWidth
     this.cellHeight = cellHeight
 
-    this.wrapper.style.width = this.cellWidth * this.columnCount + 'px'
-    this.wrapper.style.height = this.cellHeight * this.rowCount + 'px'
+    this.canvasWidth = this.cellWidth * this.columnCount
+    this.canvasHeight = this.cellHeight * this.rowCount
 
     this.drawCanvas = this.generateDrawCanvasElement()
     this.drawCanvasContext = this.drawCanvas.getContext('2d') as CanvasRenderingContext2D
@@ -58,10 +61,8 @@ class PixelPainter {
     const canvas = document.createElement('canvas')
     canvas.style.cursor = 'pointer'
     canvas.style.backgroundColor = 'trasnparent'
-    canvas.style.width = this.wrapper.clientWidth + 'px'
-    canvas.style.height = this.wrapper.clientHeight + 'px'
-    canvas.width = this.wrapper.clientWidth
-    canvas.height = this.wrapper.clientHeight
+    canvas.width = this.canvasWidth
+    canvas.height = this.canvasHeight
     return canvas
   }
 
@@ -72,10 +73,8 @@ class PixelPainter {
     backgroundCanvas.style.zIndex = '-1'
     backgroundCanvas.style.top = '0'
     backgroundCanvas.style.left = '0'
-    backgroundCanvas.style.width = '100%'
-    backgroundCanvas.style.height = '100%'
-    backgroundCanvas.width = this.wrapper.clientWidth
-    backgroundCanvas.height = this.wrapper.clientHeight
+    backgroundCanvas.width = this.canvasWidth
+    backgroundCanvas.height = this.canvasHeight
     this.wrapper.appendChild(backgroundCanvas)
 
     const backgroundCanvasContext = backgroundCanvas.getContext('2d') as CanvasRenderingContext2D
