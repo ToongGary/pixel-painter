@@ -4,11 +4,11 @@ class PixelPainter {
   private backgroundCanvas: HTMLCanvasElement
   private colorsDiv: HTMLDivElement
   private resetButton: HTMLButtonElement
-  private columnCount: number
-  private rowCount: number
-  private cellWidth: number
-  private cellHeight: number
-
+  
+  private canvasColumnCount: number
+  private canvasRowCount: number
+  private canvasCellWidth: number
+  private canvasCellHeight: number
   private canvasWidth: number
   private canvasHeight: number
 
@@ -16,34 +16,34 @@ class PixelPainter {
 
   private cellColor: string
 
-  private wrapper: HTMLDivElement
+  private canvasWrapper: HTMLDivElement
 
   constructor({
-    wrapperId,
+    canvasId,
     resetButtonId,
-    columnCount,
-    rowCount,
-    cellWidth,
-    cellHeight
+    canvasColumnCount,
+    canvasRowCount,
+    canvasCellWidth,
+    canvasCellHeight
   }: {
-    wrapperId: string
+    canvasId: string
     resetButtonId: string
-    columnCount: number
-    rowCount: number
-    cellWidth: number
-    cellHeight: number
+    canvasColumnCount: number
+    canvasRowCount: number
+    canvasCellWidth: number
+    canvasCellHeight: number
   }) {
     this.cellColor = 'black'
     this.isClick = false
-    this.wrapper = document.getElementById(wrapperId) as HTMLDivElement
+    this.canvasWrapper = document.getElementById(canvasId) as HTMLDivElement
     this.resetButton = document.getElementById(resetButtonId) as HTMLButtonElement
-    this.columnCount = columnCount
-    this.rowCount = rowCount
-    this.cellWidth = cellWidth
-    this.cellHeight = cellHeight
+    this.canvasColumnCount = canvasColumnCount
+    this.canvasRowCount = canvasRowCount
+    this.canvasCellWidth = canvasCellWidth
+    this.canvasCellHeight = canvasCellHeight
 
-    this.canvasWidth = this.cellWidth * this.columnCount
-    this.canvasHeight = this.cellHeight * this.rowCount
+    this.canvasWidth = this.canvasCellWidth * this.canvasColumnCount
+    this.canvasHeight = this.canvasCellHeight * this.canvasRowCount
 
     this.drawCanvas = this.generateDrawCanvasElement()
     this.drawCanvasContext = this.drawCanvas.getContext('2d') as CanvasRenderingContext2D
@@ -55,8 +55,8 @@ class PixelPainter {
     const div = document.createElement('div')
     div.appendChild(this.backgroundCanvas)
     div.appendChild(this.drawCanvas)
-    this.wrapper.appendChild(div)
-    this.wrapper.appendChild(this.colorsDiv)
+    this.canvasWrapper.appendChild(div)
+    this.canvasWrapper.appendChild(this.colorsDiv)
 
     this.initializeHandleEvents()
   }
@@ -72,27 +72,27 @@ class PixelPainter {
 
   generateBackgroundCanvasElement() {
     const backgroundCanvas = document.createElement('canvas')
-    this.wrapper.style.position = 'relative'
+    this.canvasWrapper.style.position = 'relative'
     backgroundCanvas.style.position = 'absolute'
     backgroundCanvas.style.zIndex = '-1'
     backgroundCanvas.style.top = '0'
     backgroundCanvas.style.left = '0'
     backgroundCanvas.width = this.canvasWidth
     backgroundCanvas.height = this.canvasHeight
-    this.wrapper.appendChild(backgroundCanvas)
+    this.canvasWrapper.appendChild(backgroundCanvas)
 
     const backgroundCanvasContext = backgroundCanvas.getContext('2d') as CanvasRenderingContext2D
 
-    for (let y = 0; y < this.rowCount; y++) {
-      for (let x = 0; x < this.columnCount; x++) {
-        const cellIndex = x * this.columnCount + y
+    for (let y = 0; y < this.canvasRowCount; y++) {
+      for (let x = 0; x < this.canvasColumnCount; x++) {
+        const cellIndex = x * this.canvasColumnCount + y
         const cellColor = cellIndex % 2 === 0 ? '#e6e6e6' : '#f8f8f8'
         backgroundCanvasContext.fillStyle = cellColor
         backgroundCanvasContext.fillRect(
-          x * this.cellWidth,
-          y * this.cellHeight,
-          this.cellWidth,
-          this.cellHeight
+          x * this.canvasCellWidth,
+          y * this.canvasCellHeight,
+          this.canvasCellWidth,
+          this.canvasCellHeight
         )
       }
     }
@@ -208,22 +208,22 @@ class PixelPainter {
     const x = clientX - canvasLeft
     const y = clientY - canvasTop
 
-    const cellX = Math.floor(x / this.cellWidth)
-    const cellY = Math.floor(y / this.cellHeight)
+    const cellX = Math.floor(x / this.canvasCellWidth)
+    const cellY = Math.floor(y / this.canvasCellHeight)
 
     return { x: cellX, y: cellY }
   }
 
   fillCell(cellX: number, cellY: number) {
-    const startX = cellX * this.cellWidth
-    const startY = cellY * this.cellHeight
+    const startX = cellX * this.canvasCellWidth
+    const startY = cellY * this.canvasCellHeight
     this.drawCanvasContext.fillStyle = this.cellColor
-    this.drawCanvasContext.fillRect(startX, startY, this.cellWidth, this.cellWidth)
+    this.drawCanvasContext.fillRect(startX, startY, this.canvasCellWidth, this.canvasCellWidth)
   }
 
   removeCell(cellX: number, cellY: number) {
-    const startX = cellX * this.cellWidth
-    const startY = cellY * this.cellHeight
-    this.drawCanvasContext.clearRect(startX, startY, this.cellWidth, this.cellHeight)
+    const startX = cellX * this.canvasCellWidth
+    const startY = cellY * this.canvasCellHeight
+    this.drawCanvasContext.clearRect(startX, startY, this.canvasCellWidth, this.canvasCellHeight)
   }
 }

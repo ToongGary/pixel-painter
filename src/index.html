@@ -6,17 +6,19 @@
     </style>
   </head>
   <body>
-    <div id="canvas"></div>
-    <button id="reset" type="button">Reset</button>
+    <div class="pixel-painter">
+      <div id="canvas"></div>
+      <button id="reset" type="button">Reset</button>
+    </div> 
     <script src="../dist/pixel-painter.js"></script>
     <script>
       new PixelPainter({
-        wrapperId: 'canvas',
+        canvasId: 'canvas',
+        canvasColumnCount: 21,
+        canvasRowCount: 21,
+        canvasCellWidth: 14,
+        canvasCellHeight: 14, 
         resetButtonId: 'reset',
-        columnCount: 21,
-        rowCount: 21,
-        cellWidth: 14,
-        cellHeight: 14
       })
     </script>
   </body>
