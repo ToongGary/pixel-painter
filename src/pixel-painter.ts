@@ -2,7 +2,6 @@ class PixelPainter {
   private drawCanvas: HTMLCanvasElement
   private drawCanvasContext: CanvasRenderingContext2D
   private backgroundCanvas: HTMLCanvasElement
-  private colorsDiv: HTMLDivElement
   private resetButton: HTMLButtonElement
   
   private canvasColumnCount: number
@@ -11,6 +10,9 @@ class PixelPainter {
   private canvasCellHeight: number
   private canvasWidth: number
   private canvasHeight: number
+
+  private colorPaletteElement: HTMLElement | undefined
+  private currentColorElement: HTMLElement | undefined
 
   private isClick: boolean
 
@@ -24,7 +26,10 @@ class PixelPainter {
     canvasColumnCount,
     canvasRowCount,
     canvasCellWidth,
-    canvasCellHeight
+    canvasCellHeight,
+    colorPaletteId,
+    colorPaletteColors,
+    currentColorId,
   }: {
     canvasId: string
     resetButtonId: string
@@ -32,31 +37,34 @@ class PixelPainter {
     canvasRowCount: number
     canvasCellWidth: number
     canvasCellHeight: number
+    colorPaletteId: string
+    colorPaletteColors: string[],
+    currentColorId: string
   }) {
     this.cellColor = 'black'
     this.isClick = false
+
     this.canvasWrapper = document.getElementById(canvasId) as HTMLDivElement
-    this.resetButton = document.getElementById(resetButtonId) as HTMLButtonElement
     this.canvasColumnCount = canvasColumnCount
     this.canvasRowCount = canvasRowCount
     this.canvasCellWidth = canvasCellWidth
     this.canvasCellHeight = canvasCellHeight
-
     this.canvasWidth = this.canvasCellWidth * this.canvasColumnCount
     this.canvasHeight = this.canvasCellHeight * this.canvasRowCount
+    
+    this.colorPaletteElement = this.generateColorPaletteElement(colorPaletteId, colorPaletteColors)
+    this.currentColorElement = this.generateCurrentColorElement(currentColorId)
+
+    this.resetButton = document.getElementById(resetButtonId) as HTMLButtonElement
 
     this.drawCanvas = this.generateDrawCanvasElement()
     this.drawCanvasContext = this.drawCanvas.getContext('2d') as CanvasRenderingContext2D
-
     this.backgroundCanvas = this.generateBackgroundCanvasElement()
-
-    this.colorsDiv = this.generateColorsElement()
 
     const div = document.createElement('div')
     div.appendChild(this.backgroundCanvas)
     div.appendChild(this.drawCanvas)
     this.canvasWrapper.appendChild(div)
-    this.canvasWrapper.appendChild(this.colorsDiv)
 
     this.initializeHandleEvents()
   }
@@ -100,55 +108,58 @@ class PixelPainter {
     return backgroundCanvas
   }
 
-  generateColorsElement() {
-    const colors = ['black', 'red', 'blue', 'green', 'yellow']
+  generateCurrentColorElement(
+    currentColorId: string
+  ): HTMLElement | undefined {
 
-    const colorWrapperDiv = document.createElement('div')
-    colorWrapperDiv.style.display = 'flex'
-    colorWrapperDiv.style.flexFlow = 'row nowrap'
-    colorWrapperDiv.style.marginTop = '30px'
+    const currentColorElement = document.getElementById(currentColorId)
+    if (!currentColorElement) return
 
-    colors.forEach((color) => {
-      const colorDiv = document.createElement('div')
-      colorDiv.style.width = '30px'
-      colorDiv.style.height = '30px'
-      colorDiv.style.marginRight = '3px'
-      colorDiv.style.backgroundColor = color
-      colorDiv.style.cursor = 'pointer'
+    const absolutePosition = `
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    `
+
+    const label = document.createElement('label')
+    label.style.cssText = `
+      background-color: ${this.cellColor};
+      ${absolutePosition}
+    `
+
+    const input = document.createElement('input')
+    input.type = 'color'
+    input.value = this.cellColor
+    input.style.cssText = `
+      visibility: hidden;
+      ${absolutePosition}
+    `
+
+    label.appendChild(input)
+    currentColorElement.appendChild(label)
+
+    return currentColorElement
+  }
+
+  generateColorPaletteElement(
+    colorPaletteId: string,
+    colorPaletteColors: string[]
+  ): HTMLElement | undefined {
+    const colorPaletteElement = document.getElementById(colorPaletteId)
+    if (!colorPaletteElement) return
+
+    colorPaletteColors.forEach((color) => {
+      const colorElement = document.createElement('div')
+      colorElement.style.backgroundColor = color
 
       const attributes = document.createAttribute('data-color')
       attributes.value = color
-      colorDiv.setAttributeNode(attributes)
-      colorWrapperDiv.appendChild(colorDiv)
+      colorElement.setAttributeNode(attributes)
+      colorPaletteElement.appendChild(colorElement)
     })
 
-    const label = document.createElement('label')
-    label.style.display = 'block'
-    label.style.width = '30px'
-    label.style.height = '30px'
-    label.style.backgroundColor = 'skyblue'
-    label.style.position = 'relative'
-    const input = document.createElement('input')
-    input.type = 'color'
-    input.style.position = 'absolute'
-    input.style.visibility = 'hidden'
-    input.style.width = '100%'
-    input.style.display = 'block'
-    input.style.height = '100%'
-    input.value = '#87ceeb'
-    input.addEventListener('input', this.handleColorPickerChanging.bind(this))
-    label.appendChild(input)
-
-    colorWrapperDiv.appendChild(label)
-
-    return colorWrapperDiv
-  }
-
-  handleColorPickerChanging(event: Event) {
-    const target = event.target as HTMLInputElement
-    const parent = target.parentElement as HTMLLabelElement
-    parent.style.backgroundColor = target.value as string
-    this.cellColor = target.value as string
+    return colorPaletteElement
   }
 
   initializeHandleEvents() {
@@ -156,24 +167,44 @@ class PixelPainter {
     this.drawCanvas.addEventListener('mouseup', this.handleCanvasMouseup.bind(this))
     this.drawCanvas.addEventListener('contextmenu', (event) => event.preventDefault())
     this.drawCanvas.addEventListener('mousemove', this.handleCanvasMouseMove.bind(this))
-    this.colorsDiv.addEventListener('mousedown', this.handleColorMousedown.bind(this))
 
-    if (this.resetButton) this.resetButton.addEventListener('click', this.handleResetButtonClick.bind(this))
+    if (this.colorPaletteElement) {
+      this.colorPaletteElement.addEventListener('click', this.handleColorPaletteClick.bind(this))
+    }
+
+    if (this.currentColorElement) {
+      const input = this.currentColorElement.querySelector('input') as HTMLInputElement
+      input.addEventListener('input', this.handleCurrentColorPicker.bind(this))
+    }
+
+    if (this.resetButton) {
+      this.resetButton.addEventListener('click', this.handleResetButtonClick.bind(this))
+    }
+  }
+
+  handleCurrentColorPicker(event: Event) {
+    const target = event.target as HTMLInputElement
+    const parent = target.parentElement as HTMLLabelElement
+    parent.style.backgroundColor = target.value as string
+    this.cellColor = target.value as string
   }
 
   handleResetButtonClick() {
     this.drawCanvasContext.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
   }
 
-  handleColorMousedown(event: MouseEvent) {
+  handleColorPaletteClick(event: MouseEvent) {
     const target = event.target as HTMLElement
-    let color: string
-    if (target.tagName == 'LABEL') {
-      const input = target.firstChild as HTMLInputElement
-      color = input.value as string
-    } else {
-      color = target.dataset.color as string
+    const color = target.dataset.color as string
+
+    if (this.currentColorElement) {
+      const label = this.currentColorElement.querySelector('label') as HTMLLabelElement
+      label.style.backgroundColor = color
+
+      const input = this.currentColorElement.querySelector('input') as HTMLInputElement
+      input.value = color
     }
+    
     this.cellColor = color
   }
 

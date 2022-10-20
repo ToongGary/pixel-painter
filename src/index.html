@@ -3,11 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <style>
+      #color-palette {
+        display: flex;
+        flex-flow: row nowrap;
+        margin-top: 30px;
+      }
+      #color-palette > div {
+        width: 30px;
+        height: 30px;
+        margin-right: 3px;
+        cursor: pointer
+      }
+      #current-color {
+        display: block;
+        width: 30px;
+        height: 30px;
+        position: relative;
+      }
+      #reset {
+        margin-top: 30px;
+      }
     </style>
   </head>
   <body>
     <div class="pixel-painter">
       <div id="canvas"></div>
+      <div id="current-color"></div>
+      <div id="color-palette"></div>
       <button id="reset" type="button">Reset</button>
     </div> 
     <script src="../dist/pixel-painter.js"></script>
@@ -18,6 +40,15 @@
         canvasRowCount: 21,
         canvasCellWidth: 14,
         canvasCellHeight: 14, 
+        colorPaletteId: 'color-palette',
+        colorPaletteColors: [
+          '#000000', // black
+          '#ff0000', // red
+          '#188918', // green
+          '#0000ff', // blue
+          '#ffff00', // yellow
+        ],
+        currentColorId: 'current-color',
         resetButtonId: 'reset',
       })
     </script>
