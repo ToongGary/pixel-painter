@@ -3,10 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <style>
-      #canvas {
-        width: 300px;
-        height: 300px;
-      }
     </style>
   </head>
   <body>
@@ -16,7 +12,9 @@
       new PixelPainter({
         wrapperId: 'canvas',
         columnCount: 21,
-        rowCount: 21
+        rowCount: 21,
+        cellWidth: 14,
+        cellHeight: 14
       })
     </script>
   </body>

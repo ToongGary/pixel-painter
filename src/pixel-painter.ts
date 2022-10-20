@@ -17,22 +17,29 @@ class PixelPainter {
   constructor({
     wrapperId,
     columnCount,
-    rowCount
+    rowCount,
+    cellWidth,
+    cellHeight
   }: {
     wrapperId: string
     columnCount: number
     rowCount: number
+    cellWidth: number
+    cellHeight: number
   }) {
     this.cellColor = 'black'
     this.isClick = false
     this.wrapper = document.getElementById(wrapperId) as HTMLDivElement
     this.columnCount = columnCount
     this.rowCount = rowCount
+    this.cellWidth = cellWidth
+    this.cellHeight = cellHeight
+
+    this.wrapper.style.width = this.cellWidth * this.columnCount + 'px'
+    this.wrapper.style.height = this.cellHeight * this.rowCount + 'px'
 
     this.drawCanvas = this.generateDrawCanvasElement()
     this.drawCanvasContext = this.drawCanvas.getContext('2d') as CanvasRenderingContext2D
-    this.cellWidth = this.drawCanvas.width / this.columnCount
-    this.cellHeight = this.drawCanvas.height / this.rowCount
 
     this.backgroundCanvas = this.generateBackgroundCanvasElement()
 
