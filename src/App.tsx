@@ -1,4 +1,5 @@
 import Canvas from './components/Canvas'
+import Reset from './components/Reset'
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
         canvasCellWidth={14}
         canvasCellHeight={14}
       />
+      <Reset></Reset>
     </div>
   )
 }
