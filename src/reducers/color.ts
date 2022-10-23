@@ -13,12 +13,12 @@ export const colorSlice = createSlice({
   name: 'color',
   initialState,
   reducers: {
-    setcolor: (state, action: PayloadAction<string>) => {
+    setColor: (state, action: PayloadAction<string>) => {
       state.color = action.payload
     }
   }
 })
 
-export const { setcolor } = colorSlice.actions
+export const { setColor } = colorSlice.actions
 
 export default colorSlice.reducer
