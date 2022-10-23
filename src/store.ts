@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import canvasReducer from './reducers/canvas'
 import colorReducer from './reducers/color'
 
 export const store = configureStore({
   reducer: {
+    canvas: canvasReducer,
     color: colorReducer
   }
 })
