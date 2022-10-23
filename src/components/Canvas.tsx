@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react'
-import '../styles/Canvas.css'
+import '../styles/canvas.css'
+import { useAppDispatch, useAppSelector } from '../hooks'
+// import { setCanvas } from '../reducers/canvas'
+import { setColor } from '../reducers/color'
+import { setClear } from '../reducers/canvas'
 
 interface CanvasProps {
   canvasColumnCount: number
@@ -14,8 +18,16 @@ function Canvas({
   canvasCellWidth,
   canvasCellHeight
 }: CanvasProps) {
+  const canvasWidth = canvasCellWidth * canvasColumnCount
+  const canvasHeight = canvasCellHeight * canvasRowCount
+
+  const style = {
+    width: canvasWidth + 'px',
+    height: canvasHeight + 'px'
+  }
+
   return (
-    <div className="canvas">
+    <div className="canvas" style={style}>
       <BackgroundCanvas
         canvasColumnCount={canvasColumnCount}
         canvasRowCount={canvasRowCount}
@@ -78,12 +90,22 @@ function DrawCanvas({
   canvasCellWidth,
   canvasCellHeight
 }: CanvasProps) {
+  const clear = useAppSelector((state) => state.canvas.clear)
+  const dispatch = useAppDispatch()
   const canvasWidth = canvasCellWidth * canvasColumnCount
   const canvasHeight = canvasCellHeight * canvasRowCount
   let isHoldDown = false
 
+  const canvasRef = React.useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    if (!clear) return
+    clearAll()
+  }, [clear])
+
   return (
     <canvas
+      ref={canvasRef}
       className={'draw-canvas'}
       width={canvasWidth}
       height={canvasHeight}
@@ -141,6 +163,12 @@ function DrawCanvas({
     const startX = cellX * canvasCellWidth
     const startY = cellY * canvasCellHeight
     context.clearRect(startX, startY, canvasCellWidth, canvasCellHeight)
+  }
+
+  function clearAll() {
+    const context = canvasRef.current?.getContext('2d') as CanvasRenderingContext2D
+    context.clearRect(0, 0, canvasWidth, canvasHeight)
+    dispatch(setClear(false))
   }
 }
 
