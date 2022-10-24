@@ -91,7 +91,7 @@ function DrawCanvas({
   canvasCellHeight
 }: CanvasProps) {
   const clear = useAppSelector((state) => state.canvas.clear)
-  const color = useAppSelector((state) => state.color.color)
+  const currentColor = useAppSelector((state) => state.color.color)
   const dispatch = useAppDispatch()
   const canvasWidth = canvasCellWidth * canvasColumnCount
   const canvasHeight = canvasCellHeight * canvasRowCount
@@ -155,7 +155,7 @@ function DrawCanvas({
     const context = canvas.getContext('2d') as CanvasRenderingContext2D
     const startX = cellX * canvasCellWidth
     const startY = cellY * canvasCellHeight
-    context.fillStyle = color
+    context.fillStyle = currentColor
     context.fillRect(startX, startY, canvasCellWidth, canvasCellWidth)
   }
 

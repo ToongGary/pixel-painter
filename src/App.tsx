@@ -1,6 +1,8 @@
 import Canvas from './components/Canvas'
 import ColorPalette from './components/ColorPalette'
+import ColorPicker from './components/ColorPicker'
 import Reset from './components/Reset'
+import './styles/common.css'
 
 function App() {
   return (
@@ -11,8 +13,9 @@ function App() {
         canvasCellWidth={14}
         canvasCellHeight={14}
       />
+      <ColorPicker />
       <ColorPalette />
-      <Reset></Reset>
+      <Reset />
     </div>
   )
 }

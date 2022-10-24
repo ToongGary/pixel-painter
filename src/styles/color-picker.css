@@ -1,0 +1,14 @@
+.pixel-painter .color-picker {
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+
+.pixel-painter .color-picker > input[type='color'] {
+  visibility: hidden;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
