@@ -1,7 +1,7 @@
+import '../styles/color-picker.css'
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { setColor } from '../reducers/color'
-import '../styles/color-picker.css'
 
 function ColorPicker() {
   const currentColor = useAppSelector((state) => state.color.color)

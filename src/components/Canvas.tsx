@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react'
 import '../styles/canvas.css'
+import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../hooks'
-// import { setCanvas } from '../reducers/canvas'
-import { setColor } from '../reducers/color'
 import { setClear } from '../reducers/canvas'
 
 interface CanvasProps {
