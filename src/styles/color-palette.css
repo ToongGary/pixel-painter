@@ -1,0 +1,8 @@
+.pixel-painter .color-palette {
+  display: flex;
+}
+
+.pixel-painter .color-palette > div {
+  width: 30px;
+  height: 30px;
+}

@@ -1,4 +1,5 @@
 import Canvas from './components/Canvas'
+import ColorPalette from './components/ColorPalette'
 import Reset from './components/Reset'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
         canvasCellWidth={14}
         canvasCellHeight={14}
       />
+      <ColorPalette />
       <Reset></Reset>
     </div>
   )
