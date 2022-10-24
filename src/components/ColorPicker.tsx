@@ -12,7 +12,7 @@ function ColorPicker() {
 
   return (
     <label className={'color-picker'} style={style}>
-      <input type="color" onInput={onColorInput}></input>
+      <input type="color" onInput={onColorInput} value={currentColor}></input>
     </label>
   )
 
