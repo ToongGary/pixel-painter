@@ -2,13 +2,13 @@
   position: relative;
 }
 
-.pixel-painter > .canvas > .background-canvas {
+.pixel-painter .canvas > .background-canvas {
   position: absolute;
-  z-index: -1;
 }
 
-.pixel-painter > .canvas > .draw-canvas {
+.pixel-painter .canvas > .draw-canvas {
   position: absolute;
   background: transparent;
   cursor: pointer;
+  background: rgba(0, 0, 0, 0.1);
 }

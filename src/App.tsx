@@ -7,15 +7,21 @@ import './styles/common.css'
 function App() {
   return (
     <div className="pixel-painter">
-      <Canvas
-        canvasColumnCount={21}
-        canvasRowCount={21}
-        canvasCellWidth={14}
-        canvasCellHeight={14}
-      />
-      <ColorPicker />
-      <ColorPalette />
-      <Reset />
+      <div>
+        <Canvas
+          canvasColumnCount={21}
+          canvasRowCount={21}
+          canvasCellWidth={20}
+          canvasCellHeight={20}
+        />
+        <div>
+          <div className={'toolbar'}>
+            <ColorPicker />
+            <Reset />
+          </div>
+          <ColorPalette />
+        </div>
+      </div>
     </div>
   )
 }

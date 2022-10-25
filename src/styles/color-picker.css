@@ -1,8 +1,10 @@
 .pixel-painter .color-picker {
+  box-sizing: border-box;
+  border: 5px solid #696969;
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 15%;
   position: relative;
+  cursor: pointer;
 }
 
 .pixel-painter .color-picker > input[type='color'] {

@@ -1,3 +1,4 @@
+import '../styles/reset.css'
 import { useAppDispatch } from '../hooks'
 import { setClear } from '../reducers/canvas'
 
@@ -8,7 +9,11 @@ function Reset() {
     dispatch(setClear(true))
   }
 
-  return <button onClick={clearCanvas}>Reset</button>
+  return (
+    <button className="reset" onClick={clearCanvas}>
+      Reset
+    </button>
+  )
 }
 
 export default Reset

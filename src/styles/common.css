@@ -1,2 +1,17 @@
+body {
+  background: rgb(232 232 232 / 80%);
+  margin: 0;
+}
+
 .pixel-painter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10vh;
+}
+
+.pixel-painter .toolbar {
+  display: flex;
+  background-color: #696969;
+  height: 50px;
 }

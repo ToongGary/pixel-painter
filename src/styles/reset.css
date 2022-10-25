@@ -1,0 +1,10 @@
+.pixel-painter .reset {
+  display: block;
+  width: 15%;
+  border: none;
+  border-right: 1px solid #5c5c5c;
+  border-left: 1px solid #5c5c5c;
+  background: transparent;
+  color: #cdcdcd;
+  cursor: pointer;
+}
