@@ -5,14 +5,26 @@ import { setColor } from '../reducers/color'
 function ColorPalette() {
   const dispatch = useAppDispatch()
   const hexList = [
-    '#000000',
-    '#ffffff',
-    '#ff0000',
-    '#00ff00',
-    '#0000ff',
-    '#ffff00',
-    '#00ffff',
-    '#ff00ff'
+    '#212f3d',
+    '#283747',
+    '#616a6b',
+    '#717d7e',
+    '#909497',
+    '#b3b6b7',
+    '#a04000',
+    '#af601a',
+    '#b9770e',
+    '#b7950b',
+    '#239b56',
+    '#1e8449',
+    '#117a65',
+    '#148f77',
+    '#2874a6',
+    '#1f618d',
+    '#6c3483',
+    '#76448a',
+    '#b03a2e',
+    '#922b21'
   ]
 
   const colors = hexList.map((hex) => {
